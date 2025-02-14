@@ -30,24 +30,27 @@ class DottedCircle extends StatelessWidget {
     // Initialize the controller using GetX
     final DottedCircleController controller = Get.put(DottedCircleController());
 
-    return Obx(() {
-      final rotationAngle = controller.rotationAngle * (rotatingRight ? 1 : -1);
+    return Obx(
+      () {
+        final rotationAngle =
+            controller.rotationAngle * (rotatingRight ? 1 : -1);
 
-      return Transform.rotate(
-        angle: rotationAngle,
-        child: CustomPaint(
-          size: Size(radius * 2, radius * 2),
-          painter: DottedCirclePainter(
-            dotCount: dotCount,
-            radius: radius,
-            dotColor: dotColor,
-            strokeWidth: strokeWidth,
-            shadowColor: shadowColor,
-            shadowBlurRadius: shadowBlurRadius,
-            gapRatio: gapRatio,
+        return Transform.rotate(
+          angle: rotationAngle,
+          child: CustomPaint(
+            size: Size(radius * 2, radius * 2),
+            painter: DottedCirclePainter(
+              dotCount: dotCount,
+              radius: radius,
+              dotColor: dotColor,
+              strokeWidth: strokeWidth,
+              shadowColor: shadowColor,
+              shadowBlurRadius: shadowBlurRadius,
+              gapRatio: gapRatio,
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }
