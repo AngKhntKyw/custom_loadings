@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:custom_loadings/pages/projects_page.dart';
 import 'package:custom_loadings/widgets/arc_reactor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -102,12 +103,131 @@ class _HomePageState extends State<HomePage>
 
             //
             AnimatedPositioned(
-              right: 10,
-              bottom: !topLeft ? -1000 - (_radiusAnimation.value + 80) : 20,
+              right: !topLeft ? -1000 : 10,
+              bottom: 10,
               duration: const Duration(seconds: 1),
-              child: CustomPaint(
-                size: const Size(150, 150),
-                painter: FolderIconPainter(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: 200,
+                    height: 80,
+                    child: Stack(
+                      children: [
+                        CustomPaint(
+                          size: const Size(200, 80),
+                          painter: FolderIconPainter(),
+                        ),
+                        const Center(
+                          child: Text(
+                            "About me",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 112, 236, 255),
+                              shadows: [
+                                Shadow(
+                                  color: Colors.blue,
+                                  blurRadius: 3,
+                                  offset: Offset(1, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height / 40),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProjectsPage()));
+                    },
+                    child: SizedBox(
+                      width: 200,
+                      height: 80,
+                      child: Stack(
+                        children: [
+                          CustomPaint(
+                            size: const Size(200, 80),
+                            painter: FolderIconPainter(),
+                          ),
+                          const Center(
+                            child: Text(
+                              "Projects",
+                              style: TextStyle(
+                                color: Color.fromARGB(255, 112, 236, 255),
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.blue,
+                                    blurRadius: 3,
+                                    offset: Offset(1, 1),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: size.height / 40),
+                  SizedBox(
+                    width: 200,
+                    height: 80,
+                    child: Stack(
+                      children: [
+                        CustomPaint(
+                          size: const Size(200, 80),
+                          painter: FolderIconPainter(),
+                        ),
+                        const Center(
+                          child: Text(
+                            "Experiences",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 112, 236, 255),
+                              shadows: [
+                                Shadow(
+                                  color: Colors.blue,
+                                  blurRadius: 3,
+                                  offset: Offset(1, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height / 40),
+                  SizedBox(
+                    width: 200,
+                    height: 80,
+                    child: Stack(
+                      children: [
+                        CustomPaint(
+                          size: const Size(200, 80),
+                          painter: FolderIconPainter(),
+                        ),
+                        const Center(
+                          child: Text(
+                            "Documents",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 112, 236, 255),
+                              shadows: [
+                                Shadow(
+                                  color: Colors.blue,
+                                  blurRadius: 3,
+                                  offset: Offset(1, 1),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
 
@@ -189,50 +309,79 @@ class _HomePageState extends State<HomePage>
   }
 }
 
+class FolderIcon extends StatelessWidget {
+  const FolderIcon({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: const Size(200, 60), // Folder size
+      painter: FolderIconPainter(),
+    );
+  }
+}
+
 class FolderIconPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final Paint paint = Paint()
-      ..color = Colors.yellow
+      ..color = Color.fromARGB(79, 112, 236, 255)
       ..style = PaintingStyle.fill;
 
-    final Paint outlinePaint = Paint()
-      ..color = Colors.black
+    // Border color and width
+    final Paint borderPaint = Paint()
+      ..color = Color.fromARGB(255, 112, 236, 255) // Border color
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
+      ..strokeWidth = 4; // Thickness of the border
 
-    // Folder shape (rounded rectangle)
-    final folderRect = Rect.fromLTWH(20, 30, size.width - 40, size.height - 60);
+    // Shadow paint (using a mask filter to create blur)
+    final Paint shadowPaint = Paint()
+      ..color = Colors.black
+          .withValues(blue: 0.1) // Shadow color (semi-transparent black)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 5); // Blur effect
+
+    final Paint highlightPaint = Paint()
+      ..color = Colors.blue // Slanted edge highlight color
+      ..style = PaintingStyle.fill;
+
+    // Main folder body (rectangle with slanted top)
     final folderPath = Path()
-      ..moveTo(folderRect.left + 10, folderRect.top) // Left side top
-      ..lineTo(folderRect.right - 10, folderRect.top) // Right side top
-      ..lineTo(folderRect.right - 10, folderRect.bottom) // Right side bottom
-      ..lineTo(folderRect.left + 10, folderRect.bottom) // Left side bottom
+      ..moveTo(20, size.height) // Start at bottom left
+      ..lineTo(size.width - 20, size.height) // Bottom right
+      ..lineTo(size.width - 20, 15) // Top right (shortened)
+      ..lineTo(50, 0) // Slanted top-left corner
+      ..lineTo(20, 15) // Left corner (shortened)
       ..close();
 
-    // Draw the folder background
+    // Draw the shadow of the folder body first (slightly offset)
+    canvas.drawPath(folderPath, shadowPaint);
+
+    // Draw the folder background (grey color)
     canvas.drawPath(folderPath, paint);
 
-    // Draw the folder outline
-    canvas.drawPath(folderPath, outlinePaint);
-
-    // Folder tab (Top part of the folder)
-    final tabPath = Path()
-      ..moveTo(folderRect.left, folderRect.top)
-      ..lineTo(folderRect.left + 40, folderRect.top)
-      ..lineTo(folderRect.left + 10, folderRect.top - 20)
+    // Draw the folder highlight (orange slanted edge)
+    final highlightPath = Path()
+      ..moveTo(50, 0) // Start of slanted highlight edge
+      ..lineTo(size.width - 20, 15) // Top-right (shortened)
+      ..lineTo(size.width - 20, 0) // Top-right horizontal end
+      ..lineTo(50, 0) // End of slanted edge
       ..close();
 
-    paint.color = Colors.orange; // Different color for tab
-    canvas.drawPath(tabPath, paint);
+    canvas.drawPath(highlightPath, highlightPaint);
 
-    // Outline for the tab
-    outlinePaint.color = Colors.black;
-    canvas.drawPath(tabPath, outlinePaint);
+    // Draw the folder border (orange border)
+    canvas.drawPath(folderPath, borderPaint);
+
+    // Optional: Draw the folder outline (stronger black border)
+    final outlinePaint = Paint()
+      ..color = Colors.black
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2; // Outline thickness
+    canvas.drawPath(folderPath, outlinePaint);
   }
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    return false; // No need to repaint, static icon
+    return false;
   }
 }

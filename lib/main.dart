@@ -1,4 +1,5 @@
 import 'package:custom_loadings/pages/home_page.dart';
+import 'package:custom_loadings/pages/projects_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         scaffoldBackgroundColor: Colors.black,
       ),
-      home: const HomePage(),
+      home: const ProjectsPage(),
     );
   }
 }
