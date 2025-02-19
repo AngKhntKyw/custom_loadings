@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:custom_loadings/widgets/arc_reactor.dart';
 import 'package:flip_card_swiper/flip_card_swiper.dart';
 import 'package:flutter/material.dart';
 
@@ -11,35 +13,39 @@ class ProjectsPage extends StatefulWidget {
 class _ProjectsPageState extends State<ProjectsPage>
     with SingleTickerProviderStateMixin {
   final List<Map<String, dynamic>> cards = [
-    {'color': Colors.blue, 'text': 'Card 1'},
-    {'color': Colors.red, 'text': 'Card 2'},
-    {'color': Colors.green, 'text': 'Card 3'},
+    {'id': 1, 'text': 'Card 1'},
+    {'id': 2, 'text': 'Card 2'},
+    {'id': 3, 'text': 'Card 3'},
+    {'id': 4, 'text': 'Card 4'},
+    {'id': 5, 'text': 'Card 5'},
+    {'id': 6, 'text': 'Card 6'},
   ];
 
   late AnimationController _animationController;
+  late Map<String, dynamic> currentCard;
 
   @override
   void initState() {
     super.initState();
-    // Initialize the animation controller
+    currentCard = cards[0];
+
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1), // Animation duration
+      duration: Duration(seconds: 1),
     );
 
-    // Start the animation automatically
     _animationController.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose(); // Dispose the controller
+    _animationController.dispose();
     super.dispose();
   }
 
   void _restartAnimation() {
-    _animationController.reset(); // Reset the animation
-    _animationController.forward(); // Start it again
+    _animationController.reset();
+    _animationController.forward();
   }
 
   @override
@@ -57,14 +63,11 @@ class _ProjectsPageState extends State<ProjectsPage>
                   builder: (context, child) {
                     return Transform.translate(
                       offset: Offset(
-                        -1000 *
-                            (1 -
-                                _animationController
-                                    .value), // Move from left to right
+                        -1000 * (1 - _animationController.value),
                         0,
                       ),
                       child: Text(
-                        'asdf',
+                        currentCard['text'],
                         style: TextStyle(
                           color: Color.fromARGB(255, 112, 236, 255),
                           shadows: [
@@ -86,7 +89,11 @@ class _ProjectsPageState extends State<ProjectsPage>
                 cardData: cards,
                 onCardChange: (newIndex) {
                   // Restart the text animation
+                  log('current index :$newIndex');
                   _restartAnimation();
+                  setState(() {
+                    currentCard = cards[newIndex];
+                  });
                 },
                 onCardCollectionAnimationComplete: (value) {
                   // Triggered when card collection animation finishes
@@ -106,33 +113,35 @@ class _ProjectsPageState extends State<ProjectsPage>
                         width: 2,
                       ),
                     ),
-                    child: Stack(
-                      alignment: Alignment.topRight,
+                    child: Row(
                       children: [
-                        Icon(
-                          Icons.settings,
-                          color: Color.fromARGB(255, 112, 236, 255),
-                          shadows: [
-                            Shadow(
-                              color: Colors.blue,
-                              blurRadius: 3,
-                              offset: Offset(1, 1),
-                            ),
-                          ],
+                        Expanded(
+                          child: ArcReactor(
+                            radius: -20,
+                          ),
                         ),
-                        Center(
-                          child: Text(
-                            card['text'],
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 112, 236, 255),
-                              shadows: [
-                                Shadow(
-                                  color: Colors.blue,
-                                  blurRadius: 3,
-                                  offset: Offset(1, 1),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                card['text'],
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 112, 236, 255),
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.blue,
+                                      blurRadius: 3,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              const Divider(
+                                color: Color.fromARGB(255, 112, 236, 255),
+                              ),
+                            ],
                           ),
                         ),
                       ],

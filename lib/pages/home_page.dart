@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Size size;
+  const HomePage({super.key, required this.size});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,7 +34,8 @@ class _HomePageState extends State<HomePage>
       duration: Duration(seconds: 1),
     );
 
-    _radiusAnimation = Tween<double>(begin: 0, end: 20).animate(
+    _radiusAnimation =
+        Tween<double>(begin: -10, end: widget.size.height / 10).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
@@ -58,7 +60,10 @@ class _HomePageState extends State<HomePage>
   }
 
   void onTap() {
-    _controller.animateBack(_radiusAnimation.value == 0 ? 20 : 0);
+    _controller.animateBack(
+        _radiusAnimation.value == (widget.size.height / 100) - 10
+            ? widget.size.height / 10
+            : (widget.size.height / 100) - 10);
 
     setState(() {
       topLeft = !topLeft;
@@ -82,7 +87,7 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    // final size = MediaQuery.of(context).size;
     return Scaffold(
       body: GestureDetector(
         onTap: onTap,
@@ -90,14 +95,14 @@ class _HomePageState extends State<HomePage>
           children: [
             //
             AnimatedPositioned(
-              top: topLeft ? size.height / 10 : size.height + 10,
+              top: topLeft ? widget.size.height / 10 : widget.size.height + 10,
               right: 0,
               left: 0,
               duration: const Duration(seconds: 1),
               child: Image.network(
                 "assets/wallpaperflare.com_wallpaper.jpg",
-                height: size.height / 1.5,
-                width: size.height / 1.5,
+                height: widget.size.height / 1.5,
+                width: widget.size.height / 1.5,
               ),
             ),
 
@@ -135,43 +140,48 @@ class _HomePageState extends State<HomePage>
                       ],
                     ),
                   ),
-                  SizedBox(height: size.height / 40),
+                  SizedBox(height: widget.size.height / 40),
                   InkWell(
+                    splashColor: const Color.fromARGB(255, 108, 160, 248),
+                    borderRadius: BorderRadius.circular(10),
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProjectsPage()));
                     },
-                    child: SizedBox(
-                      width: 200,
-                      height: 80,
-                      child: Stack(
-                        children: [
-                          CustomPaint(
-                            size: const Size(200, 80),
-                            painter: FolderIconPainter(),
-                          ),
-                          const Center(
-                            child: Text(
-                              "Projects",
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 112, 236, 255),
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.blue,
-                                    blurRadius: 3,
-                                    offset: Offset(1, 1),
-                                  ),
-                                ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: SizedBox(
+                        width: 200,
+                        height: 80,
+                        child: Stack(
+                          children: [
+                            CustomPaint(
+                              size: const Size(200, 80),
+                              painter: FolderIconPainter(),
+                            ),
+                            const Center(
+                              child: Text(
+                                "Projects",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 112, 236, 255),
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.blue,
+                                      blurRadius: 3,
+                                      offset: Offset(1, 1),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: size.height / 40),
+                  SizedBox(height: widget.size.height / 40),
                   SizedBox(
                     width: 200,
                     height: 80,
@@ -199,7 +209,7 @@ class _HomePageState extends State<HomePage>
                       ],
                     ),
                   ),
-                  SizedBox(height: size.height / 40),
+                  SizedBox(height: widget.size.height / 40),
                   SizedBox(
                     width: 200,
                     height: 80,
@@ -233,34 +243,34 @@ class _HomePageState extends State<HomePage>
 
             //
 
-            AnimatedPositioned(
-              duration: const Duration(seconds: 1),
-              left: 10,
-              bottom: !topLeft ? -1000 - (_radiusAnimation.value + 80) : 20,
-              child: AnimatedRotation(
-                duration: const Duration(seconds: 1),
-                turns: _turns,
-                curve: Curves.bounceIn,
-                child: ClipOval(
-                  clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    "assets/pxfuel.jpg",
-                    fit: BoxFit.cover,
-                    width: size.height / 3,
-                    height: size.height / 3,
-                  ),
-                ),
-              ),
-            ),
+            // AnimatedPositioned(
+            //   duration: const Duration(seconds: 1),
+            //   left: 10,
+            //   bottom: !topLeft ? -1000 - (_radiusAnimation.value + 80) : 20,
+            //   child: AnimatedRotation(
+            //     duration: const Duration(seconds: 1),
+            //     turns: _turns,
+            //     curve: Curves.bounceIn,
+            //     child: ClipOval(
+            //       clipBehavior: Clip.hardEdge,
+            //       child: Image.network(
+            //         "assets/pxfuel.jpg",
+            //         fit: BoxFit.cover,
+            //         width: widget.size.height / 3,
+            //         height: widget.size.height / 3,
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
             //
             AnimatedPositioned(
               duration: const Duration(seconds: 1),
               left: !topLeft
-                  ? (size.width / 2) - (_radiusAnimation.value + 80)
+                  ? (widget.size.width / 2) - (_radiusAnimation.value + 80)
                   : 10,
               top: !topLeft
-                  ? (size.height / 2) - (_radiusAnimation.value + 80)
+                  ? (widget.size.height / 2) - (_radiusAnimation.value + 80)
                   : 20,
               child: AnimatedBuilder(
                 animation: _radiusAnimation,
@@ -281,7 +291,7 @@ class _HomePageState extends State<HomePage>
               duration: const Duration(seconds: 1),
               child: Row(
                 children: [
-                  SizedBox(width: size.width / 40),
+                  SizedBox(width: widget.size.width / 40),
                   Text(
                     _formattedTime,
                     style: const TextStyle(
