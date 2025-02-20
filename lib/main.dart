@@ -1,4 +1,3 @@
-import 'package:custom_loadings/pages/home_page.dart';
 import 'package:custom_loadings/pages/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

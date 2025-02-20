@@ -160,63 +160,26 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // Menu Container
-            AnimatedAlign(
-              duration: const Duration(seconds: 1),
-              curve: Curves.linear,
+            Align(
               alignment: Alignment.bottomRight,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(800),
-                ),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(500)),
                 child: AnimatedContainer(
                   duration: const Duration(seconds: 1),
                   alignment: Alignment.topRight,
                   curve: Curves.linear,
                   height: startMenu ? size.height : 0,
-                  width: startMenu ? size.width / 1.2 : 0,
+                  width: startMenu ? size.width / 2 : 0,
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 1, 50, 56),
                     border: Border.all(
                       color: Color.fromARGB(255, 112, 236, 255),
                     ),
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(800),
+                      topLeft: Radius.circular(500),
                     ),
                   ),
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 8,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemCount: 50,
-                    shrinkWrap: true,
-                    reverse: true,
-                    itemBuilder: (context, index) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          AnimatedContainer(
-                            duration: const Duration(seconds: 1),
-                            height: startMenu ? size.width / 20 : 0,
-                            width: startMenu ? size.width / 20 : 0,
-                            child: Image.network(
-                              "assets/icons8-folder-144.png",
-                            ),
-                          ),
-                          // Text(
-                          //   "Menu Item $index",
-                          //   style: TextStyle(
-                          //     color: Color.fromARGB(255, 112, 236, 255),
-                          //     fontSize: size.width / 120,
-                          //   ),
-                          // ),
-                        ],
-                      );
-                    },
-                  ),
+                  child: Icon(Icons.settings),
                 ),
               ),
             ),
@@ -234,54 +197,57 @@ class _HomeScreenState extends State<HomeScreen> {
                     startMenu = !startMenu;
                   });
                 },
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    DottedCircle(
-                      dotCount: 12,
-                      radius: size.height / 12,
-                      dotColor: Color.fromARGB(255, 112, 236, 255),
-                      strokeWidth: size.height / 300,
-                      shadowColor: Colors.white,
-                      shadowBlurRadius: 10.0,
-                      gapRatio: 0.2,
-                      rotatingRight: false,
-                    ),
-                    DottedCircle(
-                      dotCount: 6,
-                      radius: size.height / 14,
-                      dotColor: Color.fromARGB(255, 112, 236, 255),
-                      strokeWidth: size.height / 200,
-                      shadowColor: Colors.white,
-                      shadowBlurRadius: 10.0,
-                      gapRatio: 0.2,
-                      rotatingRight: false,
-                    ),
-                    DottedCircle(
-                      dotCount: 3,
-                      radius: size.height / 18,
-                      dotColor: Colors.white,
-                      strokeWidth: size.height / 100,
-                      shadowColor: Colors.white,
-                      shadowBlurRadius: 10.0,
-                      gapRatio: 0.2,
-                      rotatingRight: false,
-                    ),
-                    DottedCircle(
-                      dotCount: 6,
-                      radius: size.height / 24,
-                      dotColor: Colors.red,
-                      strokeWidth: size.height / 200,
-                      shadowColor: Colors.white,
-                      shadowBlurRadius: 10.0,
-                      gapRatio: 0.2,
-                      rotatingRight: false,
-                    ),
-                    CircleAvatar(
-                      backgroundColor: Color.fromARGB(255, 112, 236, 255),
-                      radius: size.height / 30,
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      DottedCircle(
+                        dotCount: 12,
+                        radius: size.height / 12,
+                        dotColor: Color.fromARGB(255, 112, 236, 255),
+                        strokeWidth: size.height / 300,
+                        shadowColor: Colors.white,
+                        shadowBlurRadius: 10.0,
+                        gapRatio: 0.2,
+                        rotatingRight: false,
+                      ),
+                      DottedCircle(
+                        dotCount: 6,
+                        radius: size.height / 14,
+                        dotColor: Color.fromARGB(255, 112, 236, 255),
+                        strokeWidth: size.height / 200,
+                        shadowColor: Colors.white,
+                        shadowBlurRadius: 10.0,
+                        gapRatio: 0.2,
+                        rotatingRight: false,
+                      ),
+                      DottedCircle(
+                        dotCount: 3,
+                        radius: size.height / 18,
+                        dotColor: Colors.white,
+                        strokeWidth: size.height / 100,
+                        shadowColor: Colors.white,
+                        shadowBlurRadius: 10.0,
+                        gapRatio: 0.2,
+                        rotatingRight: false,
+                      ),
+                      DottedCircle(
+                        dotCount: 6,
+                        radius: size.height / 24,
+                        dotColor: Colors.red,
+                        strokeWidth: size.height / 200,
+                        shadowColor: Colors.white,
+                        shadowBlurRadius: 10.0,
+                        gapRatio: 0.2,
+                        rotatingRight: false,
+                      ),
+                      CircleAvatar(
+                        backgroundColor: Color.fromARGB(255, 112, 236, 255),
+                        radius: size.height / 30,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
